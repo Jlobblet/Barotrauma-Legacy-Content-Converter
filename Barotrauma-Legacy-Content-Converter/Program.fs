@@ -15,7 +15,7 @@ let main argv =
     let inputDir = parsed.GetResult <@ InputDirectory @>
     let outputDir = parsed.GetResult <@ OutputDirectory @>
 
-    let inputFiles = !!Path.Combine(inputDir, "**.xml")
+    let inputFiles = !!Path.Combine(inputDir, "**") |> Seq.filter File.Exists
 
     let transform filepath =
         let relativePath = Path.GetRelativePath(inputDir, filepath)
@@ -26,14 +26,26 @@ let main argv =
         |> Path.GetDirectoryName
         |> Directory.CreateDirectory
         |> ignore
+        
+        match Path.GetExtension filepath with
+        | ".xml" ->
+            async {
+                printfn $"{Path.Combine(inputDir, relativePath)} -> {Path.Combine(outputDir, relativePath)}"
 
-        async {
-            printfn $"{Path.Combine(inputDir, relativePath)} -> {Path.Combine(outputDir, relativePath)}"
-
-            let! doc = Xml.loadAsync filepath
-            let updated = AllTransformations doc
-            do! Xml.saveAsync outputFile updated
-        }
+                let! doc = Xml.loadAsync filepath
+                let updated = AllTransformations doc
+                do! Xml.saveAsync outputFile updated
+            }
+        | _ ->
+            async {
+                let source = File.Open(filepath, FileMode.Open)
+                let target = File.Create outputFile
+                do! target.CopyToAsync source |> Async.AwaitTask
+                source.Close()
+                source.Dispose()
+                target.Close()
+                target.Dispose()
+            }
 
     inputFiles
     |> Seq.map transform
