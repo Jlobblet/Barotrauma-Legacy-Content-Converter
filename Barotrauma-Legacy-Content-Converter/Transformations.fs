@@ -31,6 +31,12 @@ let ensureIdentifiers (doc: XDocument) =
         elt.Descendants()
         |> Seq.filter (fun e -> e.TryAttribute "name" |> Option.isSome)
         |> Seq.iter setIdentifierAndRemoveName
+        
+        // Special case for the spawn crate
+        elt.TryAttribute "cargocontainername"
+        |> Option.iter (fun attr ->
+            elt.SetAttributeValue("cargocontaineridentifier", nameToIdentifier attr.Value)
+            elt.SetAttributeValue("cargocontainername", null))
 
     doc.Root.Elements() |> Seq.iter ensureIdentifier
 
