@@ -31,7 +31,7 @@ let ensureIdentifiers (doc: XDocument) =
         elt.Descendants()
         |> Seq.filter (fun e -> e.TryAttribute "name" |> Option.isSome)
         |> Seq.iter setIdentifierAndRemoveName
-        
+
         // Special case for the spawn crate
         elt.TryAttribute "cargocontainername"
         |> Option.iter (fun attr ->
@@ -66,8 +66,25 @@ let splitAttackToAfflictions (doc: XDocument) =
 
     doc
 
+let makePriceElements (doc: XDocument) =
+    let makeElement (elt: XElement) =
+        elt.TryAttribute "price"
+        |> Option.iter (fun attr ->
+            elt.Add
+                (XElement
+                    (XName.Get "Price",
+                     XAttribute(XName.Get "baseprice", attr.Value),
+                     XAttribute(XName.Get "soldeverywhere", "false")))
+
+            elt.SetAttributeValue("price", null))
+
+    doc.Root.Elements() |> Seq.iter makeElement
+
+    doc
+
 let AllTransformations doc =
     doc
     |> ensureItemsAreWrapped
     |> ensureIdentifiers
     |> splitAttackToAfflictions
+    |> makePriceElements
