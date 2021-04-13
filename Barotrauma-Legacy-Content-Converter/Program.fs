@@ -21,6 +21,7 @@ let main argv =
         let relativePath = Path.GetRelativePath(inputDir, filepath)
         let outputFile = Path.Combine(outputDir, relativePath)
 
+        // Ensure the directory exists
         outputFile
         |> Path.GetDirectoryName
         |> Directory.CreateDirectory
@@ -29,9 +30,9 @@ let main argv =
         async {
             printfn $"{Path.Combine(inputDir, relativePath)} -> {Path.Combine(outputDir, relativePath)}"
 
-            let! doc = Xml.readAsync filepath
+            let! doc = Xml.loadAsync filepath
             let updated = AllTransformations doc
-            do! Xml.writeAsync outputFile updated
+            do! Xml.saveAsync outputFile updated
         }
 
     inputFiles
