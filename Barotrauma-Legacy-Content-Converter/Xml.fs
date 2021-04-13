@@ -8,7 +8,7 @@ open System.Xml.Linq
 let loadAsync (filepath: string) =
     let settings = XmlReaderSettings(Async = true, IgnoreWhitespace = true)
     let reader = XmlReader.Create(filepath, settings)
-    let source = new CancellationTokenSource()
+    use source = new CancellationTokenSource()
     let token = source.Token
 
     async {
@@ -25,7 +25,7 @@ let loadAsync (filepath: string) =
 let saveAsync (filepath: string) (doc: XDocument) =
     let settings = XmlWriterSettings(Async = true, Indent = true)
     let writer = XmlWriter.Create(filepath, settings)
-    let source = new CancellationTokenSource()
+    use source = new CancellationTokenSource()
     let token = source.Token
 
     async {
