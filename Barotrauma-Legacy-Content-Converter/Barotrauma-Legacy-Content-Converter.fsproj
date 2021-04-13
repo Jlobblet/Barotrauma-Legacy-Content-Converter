@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Barotrauma_Legacy_Content_Converter</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Arguments.fs" />
+        <Compile Include="Xml.fs" />
+        <Compile Include="XmlExtensions.fs" />
+        <Compile Include="Transformations.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Argu" Version="6.1.1" />
+      <PackageReference Include="FAKE.Core" Version="5.16.0" />
+      <PackageReference Include="Fake.IO.FileSystem" Version="5.20.4" />
+    </ItemGroup>
+
+</Project>

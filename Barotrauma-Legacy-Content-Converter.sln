@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Barotrauma-Legacy-Content-Converter", "Barotrauma-Legacy-Content-Converter\Barotrauma-Legacy-Content-Converter.fsproj", "{BCBC98C3-00E8-4DBB-9B78-949EB1670532}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCBC98C3-00E8-4DBB-9B78-949EB1670532}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBC98C3-00E8-4DBB-9B78-949EB1670532}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBC98C3-00E8-4DBB-9B78-949EB1670532}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBC98C3-00E8-4DBB-9B78-949EB1670532}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
