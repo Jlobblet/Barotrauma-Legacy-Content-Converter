@@ -6,14 +6,14 @@ open System.Xml
 open System.Xml.Linq
 
 let loadAsync (filepath: string) =
-    let settings = XmlReaderSettings(Async = true)
+    let settings = XmlReaderSettings(Async = true, IgnoreWhitespace = true)
     let reader = XmlReader.Create(filepath, settings)
     let source = new CancellationTokenSource()
     let token = source.Token
 
     async {
         let! doc =
-            XDocument.LoadAsync(reader, LoadOptions.PreserveWhitespace, token)
+            XDocument.LoadAsync(reader, LoadOptions.None, token)
             |> Async.AwaitTask
 
         reader.Close()
@@ -23,7 +23,7 @@ let loadAsync (filepath: string) =
 
 
 let saveAsync (filepath: string) (doc: XDocument) =
-    let settings = XmlWriterSettings(Async = true)
+    let settings = XmlWriterSettings(Async = true, Indent = true)
     let writer = XmlWriter.Create(filepath, settings)
     let source = new CancellationTokenSource()
     let token = source.Token
